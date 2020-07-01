@@ -1,18 +1,7 @@
-defmodule Nkeys do
-  @moduledoc """
-  Documentation for `Nkeys`.
-  """
+defmodule NKEYS do
+  alias NKEYS.Keypair
 
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> Nkeys.hello()
-      :world
-
-  """
-  def hello do
-    :world
+  def sign(%Keypair{public_key: public, private_key: private}, message) when is_binary(message) do
+    Ed25519.signature("PXoWU7zWAMt75FY", private, public)
   end
 end
