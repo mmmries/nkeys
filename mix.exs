@@ -7,7 +7,15 @@ defmodule Nkeys.MixProject do
       version: "0.1.0",
       elixir: "~> 1.10",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      description: "Support for nkey parsing and signing",
+      package: [
+        name: "nkeys",
+        licenses: ["MIT"],
+        links: %{
+          "github" => "https://github.com/mmmries/nkeys"
+        }
+      ]
     ]
   end
 
@@ -21,7 +29,8 @@ defmodule Nkeys.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:ed25519, "~> 1.3"}
+      {:ed25519, "~> 1.3"},
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
     ]
   end
 end
