@@ -5,8 +5,8 @@ defmodule NKEYSTest do
 
   test "from_seed" do
     nonce = "PXoWU7zWAMt75FY"
-    {:ok, keypair} = NKEYS.Keypair.from_seed(@seed)
-    signed_nonce = NKEYS.sign(keypair, nonce)
+    {:ok, nkeys} = NKEYS.from_seed(@seed)
+    signed_nonce = NKEYS.sign(nkeys, nonce)
     encoded_signed_nonce = Base.encode64(signed_nonce)
 
     assert encoded_signed_nonce ==
@@ -15,11 +15,16 @@ defmodule NKEYSTest do
 
   test "a second nonce" do
     nonce = "iBFByN3zQjAT7dQ"
-    {:ok, keypair} = NKEYS.Keypair.from_seed(@seed)
-    signed_nonce = NKEYS.sign(keypair, nonce)
+    {:ok, nkeys} = NKEYS.from_seed(@seed)
+    signed_nonce = NKEYS.sign(nkeys, nonce)
     encoded_signed_nonce = Base.url_encode64(signed_nonce)
 
     assert encoded_signed_nonce ==
              "kagPGrixaWS5yuHqw9nTQrda1Q376fK3fRCGtYdF4_w2aSk-4O7Ca0JM0qvzm69HH6MoMps2yF6Q0Qs830JZCA=="
+  end
+
+  test "creating a public nkey" do
+    {:ok, nkeys} = NKEYS.from_seed(@seed)
+    assert NKEYS.public_nkey(nkeys) == "UCK5N7N66OBOINFXAYC2ACJQYFSOD4VYNU6APEJTAVFZB2SVHLKGEW7L"
   end
 end
