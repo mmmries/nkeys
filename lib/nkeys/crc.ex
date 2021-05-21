@@ -12,8 +12,8 @@ defmodule NKEYS.CRC do
 
   def compute(<<>>, crc), do: crc
   def compute(<<byte, rem::binary>>, crc) do
-    key = ((crc >>> 8) ^^^ byte) &&& 0xff
-    crc = (crc <<< 8) ^^^ Map.get(table(), key)
+    key = Bitwise.bxor((crc >>> 8), byte) &&& 0xff
+    crc = Bitwise.bxor((crc <<< 8), Map.get(table(), key))
     compute(rem, crc &&& 0xffff)
   end
 
