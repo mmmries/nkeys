@@ -47,4 +47,4 @@ jobs:
 
       - name: Run tests
         run: |
-          MIX_ENV=test -S mix test
+          MIX_ENV=test elixir -S mix test
