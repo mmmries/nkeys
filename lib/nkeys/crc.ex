@@ -4,7 +4,13 @@ defmodule NKEYS.CRC do
 
   This is based on the [go nkeys](https://github.com/nats-io/nkeys/blob/ca6c74a24daca36cbe07d7389d7b2619d0fbc177/crc16.go) package implementation
   """
-  use Bitwise
+  import Bitwise,
+    only: [
+      bxor: 2,
+      &&&: 2,
+      >>>: 2,
+      <<<: 2
+    ]
 
   def compute(binary) when is_binary(binary) do
     compute(binary, 0)
@@ -12,8 +18,8 @@ defmodule NKEYS.CRC do
 
   def compute(<<>>, crc), do: crc
   def compute(<<byte, rem::binary>>, crc) do
-    key = Bitwise.bxor((crc >>> 8), byte) &&& 0xff
-    crc = Bitwise.bxor((crc <<< 8), Map.get(table(), key))
+    key = bxor((crc >>> 8), byte) &&& 0xff
+    crc = bxor((crc <<< 8), Map.get(table(), key))
     compute(rem, crc &&& 0xffff)
   end
 
