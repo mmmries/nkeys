@@ -3,17 +3,21 @@ defmodule NKEYSTest do
 
   describe "from_seed/1" do
     test "creates a struct from a valid seed" do
-      assert {:ok, nkey} = NKEYS.from_seed("SUAMLK2ZNL35WSMW37E7UD4VZ7ELPKW7DHC3BWBSD2GCZ7IUQQXZIORRBU")
+      assert {:ok, nkey} =
+               NKEYS.from_seed("SUAMLK2ZNL35WSMW37E7UD4VZ7ELPKW7DHC3BWBSD2GCZ7IUQQXZIORRBU")
+
       assert nkey.private_key != nil
       assert nkey.public_key != nil
     end
 
     test "should raise error when seed has bad padding" do
-      assert {:error, :invalid_seed} = NKEYS.from_seed("UAMLK2ZNL35WSMW37E7UD4VZ7ELPKW7DHC3BWBSD2GCZ7IUQQXZIORRBU")
+      assert {:error, :invalid_seed} =
+               NKEYS.from_seed("UAMLK2ZNL35WSMW37E7UD4VZ7ELPKW7DHC3BWBSD2GCZ7IUQQXZIORRBU")
     end
 
     test "should raise error with invalid seeds" do
-      assert {:error, :invalid_seed} = NKEYS.from_seed("AUAMLK2ZNL35WSMW37E7UD4VZ7ELPKW7DHC3BWBSD2GCZ7IUQQXZIORRBU")
+      assert {:error, :invalid_seed} =
+               NKEYS.from_seed("AUAMLK2ZNL35WSMW37E7UD4VZ7ELPKW7DHC3BWBSD2GCZ7IUQQXZIORRBU")
 
       assert {:error, :invalid_seed} = NKEYS.from_seed("")
 
@@ -22,27 +26,30 @@ defmodule NKEYSTest do
 
     test "should validate prefix bytes" do
       seeds = [
-               "SNAMLK2ZNL35WSMW37E7UD4VZ7ELPKW7DHC3BWBSD2GCZ7IUQQXZIORRBU",
-               "SCAMLK2ZNL35WSMW37E7UD4VZ7ELPKW7DHC3BWBSD2GCZ7IUQQXZIORRBU",
-               "SOAMLK2ZNL35WSMW37E7UD4VZ7ELPKW7DHC3BWBSD2GCZ7IUQQXZIORRBU",
-               "SUAMLK2ZNL35WSMW37E7UD4VZ7ELPKW7DHC3BWBSD2GCZ7IUQQXZIORRBU"
-              ]
+        "SNAMLK2ZNL35WSMW37E7UD4VZ7ELPKW7DHC3BWBSD2GCZ7IUQQXZIORRBU",
+        "SCAMLK2ZNL35WSMW37E7UD4VZ7ELPKW7DHC3BWBSD2GCZ7IUQQXZIORRBU",
+        "SOAMLK2ZNL35WSMW37E7UD4VZ7ELPKW7DHC3BWBSD2GCZ7IUQQXZIORRBU",
+        "SUAMLK2ZNL35WSMW37E7UD4VZ7ELPKW7DHC3BWBSD2GCZ7IUQQXZIORRBU"
+      ]
+
       Enum.each(seeds, fn seed ->
         assert {:ok, _nkey} = NKEYS.from_seed(seed)
       end)
 
       invalid_seeds = [
-                       "SDAMLK2ZNL35WSMW37E7UD4VZ7ELPKW7DHC3BWBSD2GCZ7IUQQXZIORRBU",
-                       "SBAMLK2ZNL35WSMW37E7UD4VZ7ELPKW7DHC3BWBSD2GCZ7IUQQXZIORRBU"
-                      ]
+        "SDAMLK2ZNL35WSMW37E7UD4VZ7ELPKW7DHC3BWBSD2GCZ7IUQQXZIORRBU",
+        "SBAMLK2ZNL35WSMW37E7UD4VZ7ELPKW7DHC3BWBSD2GCZ7IUQQXZIORRBU"
+      ]
+
       Enum.each(invalid_seeds, fn seed ->
         assert {:error, :invalid_seed} = NKEYS.from_seed(seed)
       end)
 
       invalid_seeds = [
-                       "PWAMLK2ZNL35WSMW37E7UD4VZ7ELPKW7DHC3BWBSD2GCZ7IUQQXZIORRBU",
-                       "PMAMLK2ZNL35WSMW37E7UD4VZ7ELPKW7DHC3BWBSD2GCZ7IUQQXZIORRBU"
-                      ]
+        "PWAMLK2ZNL35WSMW37E7UD4VZ7ELPKW7DHC3BWBSD2GCZ7IUQQXZIORRBU",
+        "PMAMLK2ZNL35WSMW37E7UD4VZ7ELPKW7DHC3BWBSD2GCZ7IUQQXZIORRBU"
+      ]
+
       Enum.each(invalid_seeds, fn seed ->
         assert {:error, :invalid_seed} = NKEYS.from_seed(seed)
       end)
