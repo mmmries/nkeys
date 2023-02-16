@@ -7,6 +7,21 @@ on:
     branches: [main]
 
 jobs:
+  lint:
+    name: "Check Formatting"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: "1.14"
+          otp-version: 25
+
+      - name: "Check Formatting"
+        run: "mix format --check-formatted"
+
   build:
     name: Build and Test OTP ${{matrix.pair.otp}} / Elixir ${{matrix.pair.elixir}}
     runs-on: ubuntu-latest
