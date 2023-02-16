@@ -12,8 +12,23 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        otp: [23, 24, 25]
-        elixir: [1.14]
+        pair:
+          - otp: 23
+            elixir: "1.10"
+          - otp: 23
+            elixir: "1.11"
+          - otp: 23
+            elixir: "1.12"
+          - otp: 24
+            elixir: "1.12"
+          - otp: 24
+            elixir: "1.13"
+          - otp: 25
+            elixir: "1.13"
+          - otp: 24
+            elixir: "1.14"
+          - otp: 25
+            elixir: "1.14"
 
     env:
       MIX_ENV: test
@@ -25,20 +40,20 @@ jobs:
       - name: Set up Elixir
         uses: erlef/setup-beam@v1
         with:
-          elixir-version: ${{matrix.elixir}} # Define the elixir version [required]
-          otp-version: ${{matrix.otp}} # Define the OTP version [required]
+          elixir-version: ${{matrix.pair.elixir}} # Define the elixir version [required]
+          otp-version: ${{matrix.pair.otp}} # Define the OTP version [required]
 
       - uses: actions/cache@v1
         id: deps-cache
         with:
           path: deps
-          key: ${{ runner.os }}-mix-${{ matrix.otp }}-${{ matrix.elixir }}-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
+          key: ${{ runner.os }}-mix-${{ matrix.pair.otp }}-${{ matrix.pair.elixir }}-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
 
       - uses: actions/cache@v1
         id: build-cache
         with:
           path: _build
-          key: ${{ runner.os }}-build-${{ matrix.otp }}-${{ matrix.elixir }}-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
+          key: ${{ runner.os }}-build-${{ matrix.pair.otp }}-${{ matrix.pair.elixir }}-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
 
       - name: Install dependencies
         run: |
