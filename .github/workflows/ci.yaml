@@ -2,13 +2,13 @@ name: CI
 
 on:
   push:
-    branches: [master]
+    branches: [main]
   pull_request:
-    branches: [master]
+    branches: [main]
 
 jobs:
   build:
-    name: Build and Test OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
+    name: Build and Test OTP ${{matrix.pair.otp}} / Elixir ${{matrix.pair.elixir}}
     runs-on: ubuntu-latest
     strategy:
       matrix:
